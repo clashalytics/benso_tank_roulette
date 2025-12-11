@@ -3,9 +3,10 @@
 Dies ist dein lokaler Challenge-Tracker für OBS. Du musst nichts installieren.
 
 ## 🚀 Schnellstart
-1. Entpacke den Ordner an einen Ort deiner Wahl.
-2. Doppelklicke auf die Datei `benso_tank_roulette.exe` (oder die `START.bat`).
-3. Ein Fenster öffnet sich mit der Meldung: "Server läuft auf http://localhost:3000". **Lasse dieses Fenster im Hintergrund offen!**
+1. Entpacke den Projektordner an einen Ort deiner Wahl.
+2. Doppelklicke auf die Datei **`START_SERVER.bat`**.
+3. Ein Fenster (Konsole) öffnet sich mit der Meldung: *"Stream Tool läuft! Öffne http://localhost:3000 im Browser"*.
+   **WICHTIG:** Lasse dieses Fenster während deines Streams im Hintergrund offen!
 
 ## 📺 Einrichtung in OBS
 1. Füge eine neue **Browserquelle** zu deiner Szene hinzu.
