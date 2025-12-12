@@ -18,5 +18,18 @@
     "url": "https://github.com/clashalytics/benso_tank_roulette/issues"
   },
   "homepage": "https://github.com/clashalytics/benso_tank_roulette#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.1.0",
+    "bootstrap": "^5.3.8",
+    "express": "^5.2.1",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.1",
+    "pkg": "^5.8.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
 }
