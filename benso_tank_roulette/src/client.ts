@@ -66,16 +66,52 @@ socket.on('update', (state: AppState) => {
 
     // 2. Synchronize control buttons (Crucial for multi-client setup)
 
-    // Stage Radio Buttons (0-4) synchronize control panel
-    const stageRadio = document.getElementById(`stage${state.stage}`) as HTMLInputElement;
-    if (stageRadio) stageRadio.checked = true;
+    // Stage Radio Buttons (0-4) synchronize the control panel visually by switching classes
+    const targetStageId = `stage${state.stage}`;
+    const targetRadio = document.getElementById(targetStageId) as HTMLInputElement;
 
-    // Display Mode Radio Buttons synchronize control panel
+    if (targetRadio) {
+        // Step 1: Iterate over all stage inputs to clean up the old state and reset classes
+        document.querySelectorAll('input[name="btnradio"]').forEach(radio => {
+            const label = radio.nextElementSibling as HTMLLabelElement;
+
+            // Uncheck the input and remove the 'checked' attribute
+            (radio as HTMLInputElement).checked = false;
+            radio.removeAttribute('checked');
+
+            // If the old button had the full 'btn-primary' color, reset it to 'outline'
+            if (label) {
+                label.classList.remove('btn-primary');
+                label.classList.add('btn-outline-primary');
+            }
+        });
+
+        // Step 2: Set the new state on the target elements
+
+        // Set the 'checked' attribute on the target input
+        targetRadio.checked = true;
+        targetRadio.setAttribute('checked', 'checked');
+
+        // Find the corresponding label (the adjacent sibling)
+        const targetLabel = targetRadio.nextElementSibling as HTMLLabelElement;
+
+        if (targetLabel) {
+            // Switch classes to visually highlight the button with full color
+            targetLabel.classList.remove('btn-outline-primary');
+            targetLabel.classList.add('btn-primary');
+            console.log(`[Stage Sync] Switched stage ${state.stage} button to btn-primary.`);
+        }
+
+    } else {
+        console.warn(`[Stage Sync] Could not find radio button with ID: ${targetStageId}`);
+    }
+
+    // Display Mode Radio Buttons synchronize the control panel (using simpler method)
     const displayId = state.displayMode === 'compact' ? 'displayCompact' : 'displayDetailed';
     const displayRadio = document.getElementById(displayId) as HTMLInputElement;
     if (displayRadio) displayRadio.checked = true;
 
-    // 3. NEW: Update Stage Visualisation in the OBS Overlay
+    // 3. Update Stage Visualisation in the OBS Overlay
     updateStageVisualization(state.stage);
 });
 
@@ -85,27 +121,35 @@ socket.on('disconnect', () => {
 
 /**
  * Updates the visual stage indicators based on the current stage number.
+ * NOTE: This relies on the 'displayEls.stageIndicators' array being correctly defined.
  * @param currentStage - The current stage value (0-4).
  */
 function updateStageVisualization(currentStage: number): void {
+    const STAGE_CLASSES = {
+        COMPLETE: 'stage-complete',
+        INCOMPLETE: 'stage-incomplete',
+        ACTIVE: 'stage-active'
+    };
+
     displayEls.stageIndicators.forEach((indicator, index) => {
         if (!indicator) return;
 
-        // The index is 0-based, so stage 1 corresponds to index 0, stage 4 to index 3.
+        // Stage numbers are 1-based (1 to 4), index is 0-based (0 to 3).
         const stageNumber = index + 1;
 
         // Clear all existing stage classes
         indicator.classList.remove(STAGE_CLASSES.COMPLETE, STAGE_CLASSES.INCOMPLETE, STAGE_CLASSES.ACTIVE);
 
-        if (stageNumber <= currentStage) {
-            // Stage is completed or is the active stage
+        if (stageNumber <= currentStage && currentStage > 0) {
+            // Stage is completed or is the active stage (if > 0)
             indicator.classList.add(STAGE_CLASSES.COMPLETE);
         } else {
-            // Stage is yet to be reached
+            // Stage is yet to be reached or currentStage is 0
             indicator.classList.add(STAGE_CLASSES.INCOMPLETE);
         }
 
         // Optional: Highlight the current active stage if it's the target
+        // We can choose to highlight the bar representing the CURRENT target stage (stage 1, 2, 3, or 4)
         if (stageNumber === currentStage && currentStage > 0) {
             indicator.classList.add(STAGE_CLASSES.ACTIVE);
             indicator.classList.remove(STAGE_CLASSES.COMPLETE); // Remove complete class if you want a different active style
@@ -238,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- D. Radio-Buttons (Stage and Display Mode) ---
-    document.querySelectorAll('.control-buttons-stage input[type="radio"]').forEach(radio => {
+    document.querySelectorAll('input[name="btnradio"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
             const stageValue = parseInt((e.target as HTMLInputElement).id.replace('stage', ''));
             sendControlAction('SET', 'stage', stageValue);

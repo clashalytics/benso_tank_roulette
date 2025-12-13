@@ -10,3 +10,7 @@ body {
     height: 400px;
     margin-bottom: 4rem;
 }
+
+.stage-buttons .btn-check:checked + .btn-outline-primary {
+    background-color: red !important;
+}
