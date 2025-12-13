@@ -132,12 +132,12 @@ function sendControlAction(type: string, key: keyof AppState | 'all', value?: nu
 
     // Confirmation dialogs for destructive actions
     if (type === 'RESET' && key !== 'all') {
-        if (!confirm(`Are you sure you want to RESET ${key.toUpperCase()} to 0?`)) {
+        if (!confirm(`Sind Sie sicher, dass Sie ${key.toUpperCase()} auf 0 ZURÜCKSETZEN wollen?`)) {
             return;
         }
     }
     if (type === 'RESET_ALL') {
-        if (!confirm("Are you sure you want to RESET ALL values (Stage, Streak, Counter, Joker)?")) {
+        if (!confirm("Wollen Sie wirklich ALLE Werte (Etappe, Streak, Zähler, Joker) auf 0 zurücksetzen?")) {
             return;
         }
     }
@@ -223,12 +223,12 @@ document.addEventListener('DOMContentLoaded', () => {
                             if (!isNaN(value) && value > 0) {
                                 sendControlAction('SET', 'interval', value);
                             } else {
-                                alert("Please enter a valid interval (number > 0).");
+                                alert("Bitte gib eine gültige Zahl ein (kann nicht kleiner als 0 sein).");
                             }
                         } else if (!isNaN(value)) {
                             sendControlAction('SET', key as keyof AppState, value);
                         } else {
-                            alert("Please enter a valid number.");
+                            alert("Bitte gib eine gültige Zahl ein.");
                         }
                         inputField.value = '';
                     }
