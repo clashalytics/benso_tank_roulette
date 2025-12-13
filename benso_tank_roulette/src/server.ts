@@ -189,18 +189,19 @@ io.on('connection', (socket) => {
     });
 
     /**
-     * Handles specific server control commands (Shutdown, Restart).
+     * Handles specific server control commands (Shutdown).
      */
     socket.on('server_control', (data: { type: string }) => {
         console.log(`Received server control command: ${data.type}`);
+
         if (data.type === 'SHUTDOWN') {
-            console.warn("Server is shutting down... Closing process.");
-            process.exit(0); // Exit the Node.js process cleanly
-        }
-        if (data.type === 'RESTART') {
-            // Exiting with a non-zero code (1) is a common convention to signal a failure/restart event
-            console.warn("Server is restarting... Exiting process.");
-            process.exit(1);
+            console.warn("Server is shutting down... Closing process (process.exit(0)).");
+            // Perform a clean shutdown (e.g., save data one last time)
+            saveState();
+
+            // Exit the Node.js process cleanly.
+            // This will close the console window for the streamer.
+            process.exit(0);
         }
     });
 

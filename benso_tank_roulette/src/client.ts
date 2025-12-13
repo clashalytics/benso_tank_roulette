@@ -252,12 +252,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- E. Server Control Buttons ---
-    document.getElementById('serverRestart')?.addEventListener('click', () => {
-        console.warn("SERVER CONTROL: Sending restart signal. This functionality relies on specific server-side code (e.g., process spawning).");
-        socket.emit('server_control', { type: 'RESTART' });
-    });
-
     document.getElementById('serverShutdown')?.addEventListener('click', () => {
         console.error("SERVER CONTROL: Sending shutdown signal. The server console window will close!");
         socket.emit('server_control', { type: 'SHUTDOWN' });
