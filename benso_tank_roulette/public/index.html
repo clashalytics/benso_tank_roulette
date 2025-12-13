@@ -23,11 +23,11 @@
         <div class="collapse navbar-collapse">
 
             <div class="ms-auto mb-2 mb-lg-0">
-                <button class="btn btn-warning">
+                <button class="btn btn-warning" id="serverRestart">
                     <i class="fa-solid fa-arrow-rotate-left"></i>
                     Server neustarten
                 </button>
-                <button class="btn btn-danger">
+                <button class="btn btn-danger" id="serverShutdown">
                     <i class="fa-solid fa-power-off"></i>
                     Server herunterfahren
                 </button>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="control-reset-stage">
-                    <button type="button" class="btn btn-outline-danger">
+                    <button type="button" class="btn btn-outline-danger" id="resetStage">
                         <i class="fa-solid fa-arrow-rotate-left"></i>
                         Zurücksetzen
                     </button>
@@ -76,10 +76,10 @@
             <div class="control-buttons-wrapper">
                 <div class="control-buttons-streak">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-primary">-</button>
-                        <button type="button" class="btn btn-primary">+</button>
+                        <button type="button" class="btn btn-primary" id="addStreak">-</button>
+                        <button type="button" class="btn btn-primary" id="subtractStreak">+</button>
                     </div>
-                    <button type="button" class="btn btn-outline-danger">
+                    <button type="button" class="btn btn-outline-danger" id="resetStreak">
                         <i class="fa-solid fa-arrow-rotate-left"></i>
                         Zurücksetzen
                     </button>
@@ -87,7 +87,7 @@
                 <div class="control-update-streak">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="..." aria-label="Recipient’s username">
-                        <button class="btn btn-primary" type="button" id="">
+                        <button class="btn btn-primary" type="button" id="updateStreak">
                             Aktualisieren
                         </button>
                     </div>
@@ -101,10 +101,10 @@
             <div class="control-buttons-wrapper">
                 <div class="control-buttons-reset_counter">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-primary">-</button>
-                        <button type="button" class="btn btn-primary">+</button>
+                        <button type="button" class="btn btn-primary" id="addResetCounter">-</button>
+                        <button type="button" class="btn btn-primary" id="subtractResetCounter">+</button>
                     </div>
-                    <button type="button" class="btn btn-outline-danger">
+                    <button type="button" class="btn btn-outline-danger" id="resetResetCounter">
                         <i class="fa-solid fa-arrow-rotate-left"></i>
                         Zurücksetzen
                     </button>
@@ -112,7 +112,7 @@
                 <div class="control-update-reset_counter">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="..." aria-label="Recipient’s username">
-                        <button class="btn btn-primary" type="button" id="">
+                        <button class="btn btn-primary" type="button" id="updateResetCounter">
                             Aktualisieren
                         </button>
                     </div>
@@ -126,10 +126,10 @@
             <div class="control-buttons-wrapper">
                 <div class="control-buttons-joker">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-primary">-</button>
-                        <button type="button" class="btn btn-primary">+</button>
+                        <button type="button" class="btn btn-primary" id="addJoker">-</button>
+                        <button type="button" class="btn btn-primary" id="subtractJoker">+</button>
                     </div>
-                    <button type="button" class="btn btn-outline-danger">
+                    <button type="button" class="btn btn-outline-danger" id="resetJoker">
                         <i class="fa-solid fa-arrow-rotate-left"></i>
                         Zurücksetzen
                     </button>
@@ -137,7 +137,7 @@
                 <div class="control-update-reset_counter">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="..." aria-label="Recipient’s username">
-                        <button class="btn btn-primary" type="button" id="">
+                        <button class="btn btn-primary" type="button" id="updateJoker">
                             Aktualisieren
                         </button>
                     </div>
@@ -145,7 +145,7 @@
             </div>
         </div>
         <div class="control-reset_all">
-            <button type="button" class="btn btn-danger">
+            <button type="button" class="btn btn-danger" id="resetAllValues">
                 <i class="fa-solid fa-arrow-rotate-left"></i>
                 Alles zurücksetzen
             </button>
