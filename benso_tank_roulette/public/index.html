@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Benso Panzerroulette</title>
+    <title>Benso Tankroulette</title>
 
     <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
@@ -16,7 +16,7 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Benso Panzerroulette Tracker</a>
+        <a class="navbar-brand" href="">Benso Tankroulette</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -36,39 +36,124 @@
     </div>
 </nav>
 
-<div class="container roulette-control-wrapper">
-    <h2 class="h2">
-        Section 1
-    </h2>
-    <div class="roulette-control">
-        <div class="streak-control">
-            <p>Streak settings</p>
-            <div class="flex-buttons d-flex justify-content-start">
-                <button class="btn btn-secondary">up</button>
-                <button class="btn btn-secondary">down</button>
-                <button class="btn btn-secondary">reset</button>
+<div class="container controls d-flex">
+    <div class="control-item-wrapper">
+        <div class="control-item">
+            <h3 class="h3">
+                Etappe
+            </h3>
+            <div class="control-buttons-wrapper">
+                <div class="control-buttons-stage">
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="btnradio" id="stage0" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="stage0">0</label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="stage1" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="stage1">1</label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="stage2" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="stage2">2</label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="stage3" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="stage3">3</label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="stage4" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="stage4">4</label>
+                    </div>
+                </div>
+                <div class="control-reset-stage">
+                    <button type="button" class="btn btn-outline-danger">
+                        <i class="fa-solid fa-arrow-rotate-left"></i>
+                        Zurücksetzen
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="pb-control">
-            <p>Personal best settings</p>
-            <div class="flex-buttons d-flex justify-content-start">
-                <button class="btn btn-secondary">up</button>
-                <button class="btn btn-secondary">down</button>
-                <button class="btn btn-secondary">reset</button>
+        <div class="control-item">
+            <h3 class="h3">
+                Streak
+            </h3>
+            <div class="control-buttons-wrapper">
+                <div class="control-buttons-streak">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-primary">-</button>
+                        <button type="button" class="btn btn-primary">+</button>
+                    </div>
+                    <button type="button" class="btn btn-outline-danger">
+                        <i class="fa-solid fa-arrow-rotate-left"></i>
+                        Zurücksetzen
+                    </button>
+                </div>
+                <div class="control-update-streak">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="..." aria-label="Recipient’s username">
+                        <button class="btn btn-primary" type="button" id="">
+                            Aktualisieren
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="token-control">
-            <p>Token settings</p>
-            <div class="flex-buttons d-flex justify-content-start">
-                <button class="btn btn-secondary">up</button>
-                <button class="btn btn-secondary">down</button>
-                <button class="btn btn-secondary">reset</button>
+        <div class="control-item">
+            <h3 class="h3">
+                Reset Counter
+            </h3>
+            <div class="control-buttons-wrapper">
+                <div class="control-buttons-reset_counter">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-primary">-</button>
+                        <button type="button" class="btn btn-primary">+</button>
+                    </div>
+                    <button type="button" class="btn btn-outline-danger">
+                        <i class="fa-solid fa-arrow-rotate-left"></i>
+                        Zurücksetzen
+                    </button>
+                </div>
+                <div class="control-update-reset_counter">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="..." aria-label="Recipient’s username">
+                        <button class="btn btn-primary" type="button" id="">
+                            Aktualisieren
+                        </button>
+                    </div>
+                </div>
             </div>
+        </div>
+        <div class="control-item">
+            <h3 class="h3">
+                Joker
+            </h3>
+            <div class="control-buttons-wrapper">
+                <div class="control-buttons-joker">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-primary">-</button>
+                        <button type="button" class="btn btn-primary">+</button>
+                    </div>
+                    <button type="button" class="btn btn-outline-danger">
+                        <i class="fa-solid fa-arrow-rotate-left"></i>
+                        Zurücksetzen
+                    </button>
+                </div>
+                <div class="control-update-reset_counter">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="..." aria-label="Recipient’s username">
+                        <button class="btn btn-primary" type="button" id="">
+                            Aktualisieren
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="control-reset_all">
+            <button type="button" class="btn btn-danger">
+                <i class="fa-solid fa-arrow-rotate-left"></i>
+                Alles zurücksetzen
+            </button>
         </div>
     </div>
 </div>
 
-<div class="container roulette-display">
+<div class="container display">
     <h2 class="h2">
         Section 2
     </h2>
