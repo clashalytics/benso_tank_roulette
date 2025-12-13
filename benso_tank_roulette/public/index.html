@@ -86,7 +86,7 @@
                 </div>
                 <div class="control-update-streak">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="..." aria-label="Recipient’s username">
+                        <input type="text" class="form-control" placeholder="...">
                         <button class="btn btn-primary" type="button" id="updateStreak">
                             Aktualisieren
                         </button>
@@ -111,7 +111,7 @@
                 </div>
                 <div class="control-update-reset_counter">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="..." aria-label="Recipient’s username">
+                        <input type="text" class="form-control" placeholder="...">
                         <button class="btn btn-primary" type="button" id="updateResetCounter">
                             Aktualisieren
                         </button>
@@ -136,7 +136,7 @@
                 </div>
                 <div class="control-update-reset_counter">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="..." aria-label="Recipient’s username">
+                        <input type="text" class="form-control" placeholder="...">
                         <button class="btn btn-primary" type="button" id="updateJoker">
                             Aktualisieren
                         </button>
@@ -148,6 +148,36 @@
             <button type="button" class="btn btn-danger" id="resetAllValues">
                 <i class="fa-solid fa-arrow-rotate-left"></i>
                 Alles zurücksetzen
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <hr class="solid">
+</div>
+
+<div class="container display-controls d-flex">
+    <div class="display-visualization">
+        <h3 class="h3">
+            Visualisierung:
+        </h3>
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="btnradio" id="displayCompact" autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="displayCompact">Kompakt</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="displayDetailed" autocomplete="off">
+            <label class="btn btn-outline-primary" for="displayDetailed">Detailliert</label>
+        </div>
+    </div>
+    <div class="display-interval">
+        <h3 class="h3">
+            Intervall (in Sek.):
+        </h3>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="...">
+            <button class="btn btn-primary" type="button" id="updateInterval">
+                Aktualisieren
             </button>
         </div>
     </div>
