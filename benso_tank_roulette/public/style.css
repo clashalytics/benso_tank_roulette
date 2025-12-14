@@ -13,7 +13,7 @@ body {
 
 .display-compact-info-rotator {
     position: relative;
-    min-height: 40px;
+    min-height: 3rem;
     overflow: hidden;
 }
 
