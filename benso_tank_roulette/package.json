@@ -2,6 +2,9 @@
   "name": "benso_tank_roulette",
   "version": "1.0.0",
   "main": "dist/server.js",
+  "bin": {
+    "benso-roulette": "dist/server.js"
+  },
   "scripts": {
     "start": "node dist/server.js",
     "build": "tsc",
