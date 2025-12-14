@@ -18,6 +18,9 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="">Benso Tankroulette</a>
+            <p class="tiny navbar-creator">
+                made by kontrovers_pie
+            </p>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -33,7 +36,7 @@
         </div>
     </nav>
 
-    <div class="container controls d-flex">
+    <div class="container controls">
         <div class="control-item-wrapper">
             <div class="control-item">
                 <h3 class="h3">
@@ -82,7 +85,7 @@
                         </button>
                     </div>
                     <div class="control-update-streak">
-                        <div class="input-group mb-3">
+                        <div class="input-group">
                             <input type="text" class="form-control" placeholder="..." id="inputStreak">
                             <button class="btn btn-primary" type="button" id="updateStreak">
                                 Aktualisieren
@@ -107,7 +110,7 @@
                         </button>
                     </div>
                     <div class="control-update-reset_counter">
-                        <div class="input-group mb-3">
+                        <div class="input-group">
                             <input type="text" class="form-control" placeholder="..." id="inputResetCounter">
                             <button class="btn btn-primary" type="button" id="updateResetCounter">
                                 Aktualisieren
@@ -132,7 +135,7 @@
                         </button>
                     </div>
                     <div class="control-update-reset_counter">
-                        <div class="input-group mb-3">
+                        <div class="input-group">
                             <input type="text" class="form-control" placeholder="..." id="inputJoker">
                             <button class="btn btn-primary" type="button" id="updateJoker">
                                 Aktualisieren
@@ -141,12 +144,13 @@
                     </div>
                 </div>
             </div>
-            <div class="control-reset_all">
-                <button type="button" class="btn btn-danger" id="resetAllValues">
-                    <i class="fa-solid fa-arrow-rotate-left"></i>
-                    Alles zurücksetzen
-                </button>
-            </div>
+
+        </div>
+        <div class="control-reset_all">
+            <button type="button" class="btn btn-danger" id="resetAllValues">
+                <i class="fa-solid fa-arrow-rotate-left"></i>
+                Alles zurücksetzen
+            </button>
         </div>
     </div>
 
@@ -171,7 +175,7 @@
             <h3 class="h3">
                 Intervall (in Sek.):
             </h3>
-            <div class="input-group mb-3">
+            <div class="input-group">
                 <input type="text" class="form-control" placeholder="..." id="inputInterval">
                 <button class="btn btn-primary" type="button" id="updateInterval">
                     Aktualisieren
@@ -180,7 +184,7 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container overlay">
         <div class="display">
 
         </div>
