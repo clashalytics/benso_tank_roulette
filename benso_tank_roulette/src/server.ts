@@ -27,7 +27,7 @@ const INITIAL_STATE: AppState = {
     resetCounter: 0,
     joker: 0,
     displayMode: 'detailed',
-    interval: 10,
+    interval: 5,
 };
 
 let currentState: AppState = { ...INITIAL_STATE };
