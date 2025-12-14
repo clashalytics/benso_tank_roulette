@@ -1,12 +1,229 @@
-// src/client.ts
-
-// Since we load Socket.io via a <script> tag in index.html, 
-// we must tell TypeScript that the 'io' variable exists globally.
 declare var io: any;
 
 // Establish the connection to the server on the local host
 const socket = io();
 console.log("Attempting to connect to the Socket.io server...");
+
+// Global variables for the compact mode rotation logic
+let currentCompactElementIndex: number = 0;
+let compactRotationInterval: any | null = null;
+const compactElements: string[] = ['display-compact-streak', 'display-compact-reset_counter', 'display-compact-joker'];
+// Select the main display container
+const displayContainer: HTMLElement | null = document.querySelector('.display');
+
+// Helper function to generate stage icons based on the current state
+const generateStageHTML = (currentStage: number): string => {
+    let html = '';
+    const totalStages = 4; // Hardcoded to 4 stages based on user template
+    for (let i = 1; i <= totalStages; i++) {
+        const isChecked = i <= currentStage;
+        const stageClass = isChecked ? 'stage-checked' : 'stage-unchecked';
+        const iconClass = isChecked ? 'fa-solid fa-circle-check' : 'fa-solid fa-circle-xmark';
+
+        html += `<div class="stage-container ${stageClass}">
+                     <i class="${iconClass}"></i>
+                 </div>`;
+    }
+    return html;
+};
+
+// --- HTML Template Generators ---
+
+const getDetailedHTML = (state: AppState): string => {
+    const stageHTML = generateStageHTML(state.stage);
+    return `
+<div class="display-detailed">
+    <h3 class="display-heading">
+        !Herausforderung
+    </h3>
+    <div class="display-detailed-values">
+        <div class="display-detailed-stages">
+            ${stageHTML}
+        </div>
+        <div class="display-detailed-streak">
+            <div class="streak-icon">
+                <i class="fa-solid fa-fire"></i>
+            </div>
+            <div class="streak-text">
+                Aktuelle Streak: ${state.streak}/10
+            </div>
+        </div>
+        <div class="display-detailed-reset_counter">
+            <div class="reset_counter-icon">
+                <i class="fa-solid fa-arrow-rotate-left"></i>
+            </div>
+            <div class="reset_counter-text">
+                Reset Counter: ${state.resetCounter}
+            </div>
+        </div>
+        <div class="display-detailed-joker">
+            <div class="joker-icon">
+                <i class="fa-solid fa-shield-heart"></i>
+            </div>
+            <div class="joker-text">
+                Verfügbare Joker: ${state.joker}
+            </div>
+        </div>
+    </div>
+</div>
+    `;
+};
+
+const getCompactHTML = (state: AppState): string => {
+    const stageHTML = generateStageHTML(state.stage);
+    return `
+<div class="display-compact">
+    <h3 class="display-heading">
+        !Herausforderung
+    </h3>
+    <div class="display-compact-values">
+        <div class="display-compact-stages">
+            ${stageHTML}
+        </div>
+        <div class="display-compact-info-rotator">
+            <div class="display-compact-streak compact-rotator-item" style="opacity: 1;">
+                <div class="streak-icon">
+                    <i class="fa-solid fa-fire"></i>
+                </div>
+                <div class="streak-text">
+                    Aktuelle Streak: ${state.streak}/10
+                </div>
+            </div>
+            <div class="display-compact-reset_counter compact-rotator-item">
+                <div class="reset_counter-icon">
+                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                </div>
+                <div class="reset_counter-text">
+                    Reset Counter: ${state.resetCounter}
+                </div>
+            </div>
+            <div class="display-compact-joker compact-rotator-item">
+                <div class="joker-icon">
+                    <i class="fa-solid fa-shield-heart"></i>
+                </div>
+                <div class="joker-text">
+                    Verfügbare Joker: ${state.joker}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    `;
+};
+
+/**
+ * Clears the existing rotation timer.
+ */
+const clearRotationInterval = (): void => {
+    if (compactRotationInterval !== null) {
+        clearInterval(compactRotationInterval as any);
+        compactRotationInterval = null;
+    }
+    console.log("Rotation interval cleared.");
+};
+
+/**
+ * Starts the rotation timer for compact mode.
+ */
+const startRotation = (intervalMs: number): void => {
+    // Prevent rotation if the interval is too small or already running
+    if (intervalMs <= 0) return;
+    if (compactRotationInterval !== null) clearRotationInterval();
+
+    const rotatorContainer = document.querySelector('.display-compact-info-rotator') as HTMLElement;
+    if (!rotatorContainer) return;
+    const items = rotatorContainer.querySelectorAll('.compact-rotator-item') as NodeListOf<HTMLElement>;
+    if (items.length === 0) return;
+
+    // Set initial state: only the first item is visible
+    items.forEach((item, index) => {
+        item.style.opacity = index === 0 ? '1' : '0';
+    });
+    currentCompactElementIndex = 0;
+
+    // Set the rotation timer
+    compactRotationInterval = setInterval(() => {
+        const oldIndex = currentCompactElementIndex;
+
+        // Calculate the next index
+        currentCompactElementIndex = (currentCompactElementIndex + 1) % items.length;
+        const newIndex = currentCompactElementIndex;
+
+        // 1. Fade out the old element (opacity 1 -> 0)
+        items[oldIndex].style.opacity = '0';
+
+        // 2. Fade in the new element after the transition time (1000ms + buffer)
+        setTimeout(() => {
+            // Set position (optional, but ensures stacking order is correct)
+            items[oldIndex].style.zIndex = '1';
+            items[newIndex].style.zIndex = '2';
+            items[newIndex].style.opacity = '1';
+        }, 1050); // Delay slightly longer than the 1s CSS transition
+
+    }, intervalMs); // Use the interval from the state
+
+    console.log(`Compact mode rotation started with interval: ${intervalMs}ms`);
+};
+
+
+/**
+ * Main function to update the display div with the correct visualization mode.
+ */
+const updateDisplayVisualization = (state: AppState): void => {
+    if (!displayContainer) return;
+
+    // Check if the HTML structure needs to be fully replaced (mode changed)
+    const isDetailed = displayContainer.querySelector('.display-detailed');
+    const isCompact = displayContainer.querySelector('.display-compact');
+    const modeChanged = (state.displayMode === 'detailed' && !isDetailed) ||
+        (state.displayMode === 'compact' && !isCompact);
+
+    if (modeChanged) {
+        // --- Full Re-render ---
+        let newHTML = '';
+        if (state.displayMode === 'detailed') {
+            newHTML = getDetailedHTML(state);
+            clearRotationInterval(); // Stop rotation if switching to detailed
+        } else if (state.displayMode === 'compact') {
+            newHTML = getCompactHTML(state);
+            // Rotation is started below after injecting HTML
+        }
+        displayContainer.innerHTML = newHTML;
+
+    } else {
+        // --- Simple Content Update (No Re-render of structure) ---
+        // This is necessary for detailed mode and for compact mode when only values change
+
+        if (state.displayMode === 'detailed' || state.displayMode === 'compact') {
+            // Update stages
+            const stagesContainer = displayContainer.querySelector('.display-detailed-stages, .display-compact-stages');
+            if (stagesContainer) stagesContainer.innerHTML = generateStageHTML(state.stage);
+
+            // Update values (using the classes from the templates)
+            const getEl = (cls: string) => displayContainer.querySelector(`.${cls} .streak-text, .${cls} .reset_counter-text, .${cls} .joker-text`);
+
+            const streakEl = getEl('display-detailed-streak') || getEl('display-compact-streak');
+            if (streakEl) streakEl.innerHTML = `Aktuelle Streak: ${state.streak}/10`;
+
+            const resetEl = getEl('display-detailed-reset_counter') || getEl('display-compact-reset_counter');
+            if (resetEl) resetEl.innerHTML = `Reset Counter: ${state.resetCounter}`;
+
+            const jokerEl = getEl('display-detailed-joker') || getEl('display-compact-joker');
+            if (jokerEl) jokerEl.innerHTML = `Verfügbare Joker: ${state.joker}`;
+        }
+    }
+
+    // --- Rotation Control ---
+    if (state.displayMode === 'compact' && state.interval > 0) {
+        // Only restart if the interval is new or the interval is not running
+        if (compactRotationInterval === null || (window as any).lastInterval !== state.interval) {
+            startRotation(state.interval * 1000); // interval is in seconds
+            (window as any).lastInterval = state.interval;
+        }
+    } else if (state.displayMode !== 'compact' || state.interval <= 0) {
+        clearRotationInterval();
+    }
+};
 
 // =======================================================
 // 1. INTERFACES AND DOM REFERENCES
@@ -60,9 +277,7 @@ socket.on('update', (state: AppState) => {
     console.log("Received State Update:", state);
 
     // 1. Update text content in the OBS display
-    if (displayEls.streak) displayEls.streak.innerText = state.streak.toString();
-    if (displayEls.resetCounter) displayEls.resetCounter.innerText = state.resetCounter.toString();
-    if (displayEls.joker) displayEls.joker.innerText = state.joker.toString();
+    updateDisplayVisualization(state);
 
     const inputStreak = document.getElementById('inputStreak') as HTMLInputElement;
     const inputResetCounter = document.getElementById('inputResetCounter') as HTMLInputElement;

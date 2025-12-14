@@ -8,8 +8,25 @@ body {
     background-color: #66ff00;
     color: black;
     margin-bottom: 4rem;
+    padding: 10px;
 }
 
-.stage-buttons .btn-check:checked + .btn-outline-primary {
-    background-color: red !important;
+.display-compact-info-rotator {
+    position: relative;
+    min-height: 40px;
+    overflow: hidden;
+}
+
+.compact-rotator-item {
+    transition: opacity 1s ease-in-out;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+}
+
+.display-compact-info-rotator .display-compact-streak:first-child {
+    /* Will be overwritten by JS, serves as fallback */
+    opacity: 1;
 }
