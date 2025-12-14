@@ -1,27 +1,71 @@
-# 🎰 Benso Tank Roulette – Anleitung
+# 🌟 Benso Tank Roulette Stream-Tool 🌟
 
-Dies ist dein lokaler Challenge-Tracker für OBS. Du musst nichts installieren.
+Dieses Tool dient zur Steuerung und Visualisierung der "Tank Roulette" Herausforderung für Twitch/YouTube Streams und wurde speziell für die Nutzung als OBS-Overlay entwickelt.
 
-## 🚀 Schnellstart
-1. Entpacke den Projektordner an einen Ort deiner Wahl.
-2. Doppelklicke auf die Datei **`START_SERVER.bat`**.
-3. Ein Fenster (Konsole) öffnet sich mit der Meldung: *"Stream Tool läuft! Öffne http://localhost:3000 im Browser"*.
-   **WICHTIG:** Lasse dieses Fenster während deines Streams im Hintergrund offen!
+## 🚀 Installation & Start
 
-## 📺 Einrichtung in OBS
-1. Füge eine neue **Browserquelle** zu deiner Szene hinzu.
-2. URL: `http://localhost:3000` | Breite: `1920` | Höhe: `1080`.
-3. **Zuschneiden (Cropping):** * Halte in OBS die **ALT-Taste** gedrückt und ziehe die Ränder des roten Rahmens so zurecht, dass nur die obere Anzeige sichtbar ist und das untere Control Panel verschwindet.
-4. **Hintergrund entfernen (Transparenz):**
-   * Rechtsklick auf die Browserquelle -> **Filter**.
-   * Füge einen Filter vom Typ **"Chroma Key"** (oder "Color Key") hinzu.
-   * Wähle als Schlüsselfarbe "Grün" oder "Benutzerdefinierte Farbe" (Neon-Grün `#00ff00`).
-   * Stelle die Ähnlichkeit so ein, dass der grüne Hintergrund komplett verschwindet und nur die Anzeige übrig bleibt.
+Dieses Tool wird als eigenständige ausführbare Datei (`.exe`) bereitgestellt und benötigt keine separate Installation von Node.js oder anderen Abhängigkeiten.
 
-## 🕹 Steuerung
-* Öffne deinen normalen Browser (Chrome/Edge/Firefox) und gehe auf `http://localhost:3000`.
-* Hier kannst du während des Streams bequem die Werte für Streak, PB und Token ändern.
-* Alle Änderungen werden **sofort** in OBS sichtbar.
+### 1. Starten des Servers
 
+1.  Doppelklicke die Datei **`benso-roulette.exe`** im `release/`-Ordner.
+2.  Es öffnet sich ein Konsolenfenster. Der Server läuft nun im Hintergrund.
+3.  **Wichtig:** Lasse das Konsolenfenster während des gesamten Streams geöffnet.
+
+### 2. Zugriff auf das Control Panel (Steuerung)
+
+Das Control Panel dient zur manuellen Änderung aller Counter und Einstellungen.
+
+Öffne diese URL in einem beliebigen Browser auf deinem PC:
+
+**🔗 Tank Roulette Dashboard:** `http://localhost:3000`
+
+## 📺 OBS-Integration (Overlay)
+
+Das Overlay zur Anzeige der Werte im Stream wird über die Hauptseite des Servers bereitgestellt.
+
+### 1. Browser Source hinzufügen
+
+1.  Füge in OBS eine neue **"Browser Source"** hinzu.
+2.  Deaktiviere das Kontrollkästchen **"Lokale Datei"**.
+
+### 2. URL für das Overlay
+
+Füge diese URL als Quelle ein:
+
+**🔗 OBS Overlay URL:** `http://localhost:3000/`
+
+### 3. Anpassungen in OBS
+
+* Stelle die **Breite** und **Höhe** der Browser Source entsprechend den Styling-Anforderungen deines Overlays ein (z. B. 600x150 Pixel).
+* Das Styling (Schriftart, Hintergrund, Farben) wird über die Datei `public/style.css` definiert, die in der Anwendung gebündelt ist.
+
+## 🕹️ Features des Control Panels
+
+Das Control Panel ermöglicht die Echtzeit-Steuerung der Stream-Visualisierung:
+
+### A. Zähler-Steuerung
+
+| Zähler            | Funktion                                                          |
+|:------------------|:------------------------------------------------------------------|
+| **Etappe**        | Aktuelle Etappe erfolgreicher Herausforderungsstreaks (maximal 4) |
+| **Streak**        | Aktuelle Serie erfolgreicher Herausforderungen (maximal 10).      |
+| **Reset Counter** | Zählt, wie oft die Streak auf 0 zurückgesetzt wurde.              |
+| **Joker**         | Verfügbare Joker, die vor einem Reset verwendet werden können.    |
+
+### B. Stage-Steuerung
+
+* **Stage/Runde:** Definiert, in welcher Phase der aktuellen Challenge du dich befindest (visualisiert durch 4 Kreise im Overlay).
+
+### C. Einstellungen
+
+* **Visualisierungsmodus (`displayMode`):** Schaltet das OBS-Overlay um:
+   * `detailliert`: Zeigt alle Werte (Streak, Reset, Joker) gleichzeitig an.
+   * `kompakt`: Zeigt nur einen Wert an und rotiert automatisch zwischen Streak, Reset Counter und Joker.
+* **Intervall (`interval`):** Definiert, wie lange jeder Wert im **kompakten Modus** sichtbar ist, bevor er zum nächsten Wert wechselt (in Sekunden).
+
+### D. Reset-Funktionen
+
+* **Reset All:** Setzt die Zähler `Streak`, `Reset Counter` und `Joker` auf 0 zurück. **Das eingestellte `Intervall` wird beibehalten.**
 ---
 *Hinweis: Deine Daten werden automatisch in der Datei `data.json` gespeichert. Lösche diese Datei nicht, wenn du deine Statistiken behalten willst.*
