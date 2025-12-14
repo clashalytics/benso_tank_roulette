@@ -1,8 +1,8 @@
 {
-  "stage": 0,
-  "streak": 2,
-  "resetCounter": 3,
-  "joker": 4,
+  "stage": 2,
+  "streak": 3,
+  "resetCounter": 6,
+  "joker": 2,
   "displayMode": "compact",
-  "interval": 5
+  "interval": 4
 }
