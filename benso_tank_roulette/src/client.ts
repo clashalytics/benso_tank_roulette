@@ -64,6 +64,16 @@ socket.on('update', (state: AppState) => {
     if (displayEls.resetCounter) displayEls.resetCounter.innerText = state.resetCounter.toString();
     if (displayEls.joker) displayEls.joker.innerText = state.joker.toString();
 
+    const inputStreak = document.getElementById('inputStreak') as HTMLInputElement;
+    const inputResetCounter = document.getElementById('inputResetCounter') as HTMLInputElement;
+    const inputJoker = document.getElementById('inputJoker') as HTMLInputElement;
+    const inputInterval = document.getElementById('inputInterval') as HTMLInputElement;
+
+    if (inputStreak) inputStreak.value = state.streak.toString();
+    if (inputResetCounter) inputResetCounter.value = state.resetCounter.toString();
+    if (inputJoker) inputJoker.value = state.joker.toString();
+    if (inputInterval) inputInterval.value = state.interval.toString();
+
     // 2. Synchronize control buttons (Crucial for multi-client setup)
 
     // Stage Radio Buttons (0-4) synchronize the control panel visually by switching classes
@@ -299,6 +309,55 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('serverShutdown')?.addEventListener('click', () => {
         console.error("SERVER CONTROL: Sending shutdown signal. The server console window will close!");
         socket.emit('server_control', { type: 'SHUTDOWN' });
+    });
+
+    // --- F. Input Field Handlers ---
+
+    const handleInputUpdate = (e: Event) => {
+        const input = e.target as HTMLInputElement;
+
+        const keyMap: { [key: string]: keyof AppState } = {
+            inputStreak: 'streak',
+            inputResetCounter: 'resetCounter',
+            inputJoker: 'joker',
+            inputInterval: 'interval'
+        };
+        const key = keyMap[input.id];
+        const value = parseInt(input.value);
+
+        if (key && !isNaN(value)) {
+            // Sends the 'SET' action with the new numeric value to the server
+            sendControlAction('SET', key, value);
+        } else if (key) {
+            console.warn(`Invalid input for ${key}. Value: ${input.value}`);
+        }
+    };
+
+    // Add Listener for 'change' (when field loses focus)
+    document.getElementById('inputStreak')?.addEventListener('change', handleInputUpdate);
+    document.getElementById('inputResetCounter')?.addEventListener('change', handleInputUpdate);
+    document.getElementById('inputJoker')?.addEventListener('change', handleInputUpdate);
+    document.getElementById('inputInterval')?.addEventListener('change', handleInputUpdate);
+
+    // Add Listener for the Enter key press
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+
+        // Use the generic 'Event' type in the listener signature as required by the DOM API.
+        input.addEventListener('keydown', (e: Event) => {
+
+            // Use Type Assertion (as KeyboardEvent) to safely access specific properties like 'key'.
+            const keyboardEvent = e as KeyboardEvent;
+
+            if (keyboardEvent.key === 'Enter') {
+                keyboardEvent.preventDefault(); // Prevent default form submission (important for Enter key)
+
+                // Execute the logic to transmit the data
+                handleInputUpdate(e);
+
+                // Blur the field: this triggers the 'change' event and hides the virtual keyboard on mobile
+                (e.target as HTMLInputElement).blur();
+            }
+        });
     });
 });
 
