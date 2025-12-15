@@ -1,51 +1,40 @@
 {
   "name": "benso_tank_roulette",
   "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+
   "main": "dist/server.js",
-  "bin": {
-    "benso-roulette": "dist/server.js"
-  },
+  "bin": "dist/server.js",
+
   "scripts": {
     "start": "node dist/server.js",
     "build": "tsc",
     "dev": "ts-node src/server.ts",
-    "pack": "pkg ."
+    "pack": "pkg . --out-path release"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/clashalytics/benso_tank_roulette.git"
-  },
-  "private": true,
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/clashalytics/benso_tank_roulette/issues"
-  },
-  "homepage": "https://github.com/clashalytics/benso_tank_roulette#readme",
-  "description": "",
+
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
     "bootstrap": "^5.3.8",
-    "express": "^5.2.1",
+    "express": "^4.19.2",
     "socket.io": "^4.8.1"
   },
+
   "devDependencies": {
-    "@types/express": "^5.0.6",
-    "@types/node": "^25.0.1",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.30",
     "pkg": "^5.8.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
+
   "pkg": {
-    "scripts": "dist/**/*.js",
     "assets": [
       "public/**/*"
     ],
     "targets": [
       "node18-win-x64"
-    ],
-    "outputPath": "release"
+    ]
   }
 }

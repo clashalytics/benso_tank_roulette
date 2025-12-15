@@ -5,6 +5,16 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 // =======================================================
+// pkg detection & base paths
+// =======================================================
+
+const isPkg = !!(process as any).pkg;
+
+const BASE_PATH = isPkg
+    ? process.cwd()
+    : path.join(__dirname, "..");
+
+// =======================================================
 // 1. INTERFACES AND INITIAL SETUP
 // =======================================================
 
@@ -19,7 +29,7 @@ interface AppState {
 }
 
 // Define the path for the persistent data file
-const DATA_FILE = path.join(__dirname, '..', 'data.json');
+const DATA_FILE = path.join(BASE_PATH, 'data.json');
 const PORT = 3000;
 const INITIAL_STATE: AppState = {
     stage: 0,
@@ -84,18 +94,23 @@ const io = new Server(server, {
 // --- Express Middleware & Routing ---
 
 // Serves the public folder (index.html, style.css, vendor files)
-app.use(express.static(path.join(__dirname, '..', 'public')));
-console.log(`Serving static files from: ${path.join(__dirname, '..', 'public')}`);
+const PUBLIC_PATH = path.join(BASE_PATH, 'public');
+
+app.use(express.static(PUBLIC_PATH));
+console.log(`Serving static files from: ${PUBLIC_PATH}`);
+
 
 // Serves the compiled JS files (client.js) from the 'dist' folder
 // The browser requests this via /dist/client.js
-app.use('/dist', express.static(path.join(__dirname, '..', 'dist')));
-console.log(`Serving compiled client code from: ${path.join(__dirname, '..', 'dist')}`);
+const DIST_PATH = path.join(BASE_PATH, 'dist');
+
+app.use('/dist', express.static(DIST_PATH));
+console.log(`Serving compiled client code from: ${DIST_PATH}`);
 
 
 // Root route delivers the control panel (index.html)
 app.get('/', (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+    res.sendFile(path.join(PUBLIC_PATH, 'index.html'));
 });
 
 
